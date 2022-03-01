@@ -272,7 +272,7 @@ public class Algoritmos {
             }
             i++;      
         }
-        if(!resp){
+        if(resp){
             next=revisa.charAt(revisa.length()-1);
             if(next=='+'||next=='-'||next=='*'||next=='/'||next=='^'||next=='.'||next=='('||next==')')
                 resp=false;
