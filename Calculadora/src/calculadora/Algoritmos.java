@@ -1,5 +1,7 @@
 package calculadora;
 
+import java.util.ArrayList;
+
 /**
  * Clase que contiene todos los algoritmos necesarios para la lógica del programa
  * @version 1.0
@@ -25,6 +27,15 @@ public class Algoritmos {
             case '^' -> 3;
             default -> -1;
         };
+    }
+    
+    private static <T> void invierte(PilaA<T> pila){
+        ArrayList <T> elementos = new ArrayList(); 
+        
+        while(!pila.isEmpty())
+            elementos.add(pila.pop());
+        for(int i=0; i<elementos.size(); i++)
+            pila.push(elementos.get(i));        
     }
     
     /**
@@ -69,6 +80,7 @@ public class Algoritmos {
         }
         while(!pila.isEmpty())
             postfija.push(pila.pop());
+        invierte(postfija);
         return postfija;
     }
     
@@ -90,8 +102,13 @@ public class Algoritmos {
             while(j>=0&&((operacion.charAt(j)>47&&operacion.charAt(j)<58)||operacion.charAt(j)=='.'))
                 j--;
             if(j<i){
-                infija.push(Double.parseDouble(operacion.substring(j+1, i+1)));
-                i=j;
+                if(j>=0 && (operacion.charAt(j)=='-' && (j==0 || getPrioridad(operacion.charAt(j-1))>0))){
+                    infija.push(-Double.parseDouble(operacion.substring(j+1, i+1)));
+                    i=j-1;
+                }else{
+                    infija.push(Double.parseDouble(operacion.substring(j+1, i+1)));
+                    i=j;
+                }
             }else{
                 infija.push(elem);
                 i--;
@@ -100,14 +117,54 @@ public class Algoritmos {
         return infija;
     }
     
-    public static double evaluaPostfija(PilaA postfija){
+    private static double exp(double num, int pow){
         double res;
         
-        res=0;
-        while(!postfija.isEmpty()){
-            
-        }
+        if(num==0)
+            res=0;
+        else
+            if(pow<0)
+                res=1/exp(num,-pow);
+            else{
+                res=1;
+                for(int i=1; i<=pow; i++)
+                    res*=num;
+            }
         return res;
+    }
+    
+    public static double evaluaPostfija(PilaA postfija){
+        double res, val1, val2;
+        PilaA<Double> valores;
+        
+        res=0;
+        valores=new PilaA();
+        while(!postfija.isEmpty()){
+            if(postfija.peek() instanceof Double)
+                valores.push((double) postfija.pop());
+            else{
+                val1=(double) valores.pop();
+                val2=(double) valores.pop();
+                switch((char) postfija.pop()){
+                    case '+':
+                        valores.push(val1+val2);
+                        break;
+                    case '-':
+                        valores.push(val2-val1);
+                        break;
+                    case '*':
+                        valores.push(val1*val2);
+                        break;
+                    case '/':
+                        valores.push(val2/val1);
+                        break;
+                    case '^':
+                        valores.push(exp(val2,(int) val1));
+                        break;
+                }
+            }
+        }
+        return valores.pop();
     }
     
     /**
@@ -147,51 +204,57 @@ public class Algoritmos {
     }
      
      /**
-      * Revisa si hay algún signo
+      * Revisa la sintaxis de la operación.
       * @param revisa Cadena a revisar
-      * @return boolean que indica si hay presencia de signos
+      * @return boolean que indica si hay signos, puntos o paréntesis escritos de manera incorrecta o algún caracter no reconocido.
       */
-    public static boolean revisaSignos(String revisa){
-        boolean resp=true;
-        char ant;
-        int i=0;
+    public static boolean revisaSintaxis(String revisa){
+        boolean resp;
+        char elem, next;
+        int i, j;
         
+        resp=true;
+        i=0;
         while(i<revisa.length()-1 && resp){
-            
-            if(revisa.charAt(i)=='+'||revisa.charAt(i)=='-'||revisa.charAt(i)=='*'||revisa.charAt(i)=='/')
-                i++;
-                if(revisa.charAt(i)=='+'||revisa.charAt(i)=='-'||revisa.charAt(i)=='*'||revisa.charAt(i)=='/')
-                    resp=false;
+            next=revisa.charAt(i+1);
+            switch(revisa.charAt(i)){
+                case '+', '*', '/', '^':
+                    if(next=='+'||next=='*'||next=='/'||next=='^'||next=='.'||next==')'){
+                        resp=false;
+                    }
+                    break;
+                case '-':
+                    if(next=='+'||next=='-'||next=='*'||next=='/'||next=='^'||next=='.'||next==')'){
+                        resp=false;
+                    }
+                    break;
+                case '.':
+                    if(next=='+'||next=='-'||next=='*'||next=='/'||next=='^'||next=='.'||next=='('||next==')')
+                        resp=false;
+                    else{
+                        j=i+1;
+                        while(j<revisa.length() && revisa.charAt(j)!='.' && revisa.charAt(j)>47 && revisa.charAt(j)<58)
+                            j++;
+                        if(j<revisa.length()&&revisa.charAt(j)=='.')
+                            resp=false;
+                    }
+                    break;
+                case '(':
+                    if(next=='+'||next=='*'||next=='/'||next=='^'||next=='.'||next==')')
+                        resp=false;
+                    break;
+                case ')':
+                    if(next=='.'||next=='(')
+                        resp=false;
+                    break;
+                default:
+                    if(revisa.charAt(i)<48||revisa.charAt(i)>57||((i==revisa.length()-2) && (next=='+'||next=='-'||next=='*'||next=='/'||next=='^'||next=='.'||next=='(')))
+                           resp=false;
+                    break;
+            }
             i++;      
         }
-        
         return resp;   
-    }
-    /**
-     * En revisión
-     * @param revisa
-     * @return 
-     */
-    public static boolean revisaPunto ( String revisa){
-        boolean resp=true;
-        int i=0,j=0,contador=0;
-       
-        while(j<revisa.length()&& resp){
-            while(i<revisa.length()&& contador<=1){
-                if(revisa.charAt(i)!='+'||revisa.charAt(i)!='-'||revisa.charAt(i)!='*'||revisa.charAt(i)!='^'||revisa.charAt(i)!='/')
-                    if(revisa.charAt(i)=='.')
-                        contador++;
-             i++;
-                }
-            if(contador>1)
-             resp=false;
-            j=i;
-            contador=0;
-        }
-         
-      
-        return resp;
-        
     }
     
     /**
@@ -214,23 +277,23 @@ public class Algoritmos {
         
         System.out.println("\nPrueba de analiza signo");
         System.out.println("Con los signos puestos correctamente");
-        System.out.println("1. 1+7-58/6 " + revisaSignos("1+7-58/6")); 
-        System.out.println("2.34-5+3 " + revisaSignos("34-5+3.0"));
+        System.out.println("1. 1+7-58/6 " + revisaSintaxis("1+7-58/6")); 
+        System.out.println("2.34-5+3 " + revisaSintaxis("34-5+3.0"));
         
         System.out.println("Con los signos puestos incorrectamente");
-        System.out.println("1. 4/-5+3( " + revisaSignos("34/-5+3("));
-        System.out.println("2. 34-5+-3( " +revisaSignos("34-5+-3("));
-        System.out.println("3. 3**4-5+3 " +revisaSignos("3**4-5+3"));
+        System.out.println("1. 4/-5+3( " + revisaSintaxis("34/*5+3("));
+        System.out.println("2. 34-5+-3( " +revisaSintaxis("34-5++3("));
+        System.out.println("3. 3**4-5+3 " +revisaSintaxis("3**4-5+3"));
         
         System.out.println("Prueba de revisaPunto");
         System.out.println("Con los puntos puestos correctamente");
-        System.out.println("1.1(a+b)  " + revisaPunto("1(a+b)")); 
-        System.out.println("2. 6+(-1(-5.6(3.4-5)+3.0)) " +revisaPunto("6+(-1(-5(34-5)+3.0))"));
+        System.out.println("1.1*(a+b)  " + revisaSintaxis("1.1*(2+3)")); 
+        System.out.println("2. 6+(-1(-5.6(3.4-5)+3.0)) " +revisaSintaxis("6+(-1*(-5*(34-5)+3.0))"));
         
         System.out.println("Con los puntos puestos incorrectamente");
-        System.out.println("1. 3.2.4-5+3" + revisaPunto("3.2.4-5+3"));
-        System.out.println("2. 3.4.6-5+3 " +revisaPunto("3.4.6-5+3"));
-        System.out.println("3. .3.4-.5+3 " +revisaPunto(".3.4-.5+3"));
+        System.out.println("1. 3.2.4-5+3 " +revisaSintaxis("3.2.4-5+3"));
+        System.out.println("2. 3.4.6-5+3 " +revisaSintaxis("3.4.6-5+3"));
+        System.out.println("3. .3.4-.5+3 " +revisaSintaxis(".3.4-.5+3"));
         
         
     }
