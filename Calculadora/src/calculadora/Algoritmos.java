@@ -210,7 +210,7 @@ public class Algoritmos {
       */
     public static boolean revisaSintaxis(String revisa){
         boolean resp;
-        char elem, next;
+        char next;
         int i, j;
         
         resp=true;
@@ -248,11 +248,16 @@ public class Algoritmos {
                         resp=false;
                     break;
                 default:
-                    if(revisa.charAt(i)<48||revisa.charAt(i)>57||((i==revisa.length()-2) && (next=='+'||next=='-'||next=='*'||next=='/'||next=='^'||next=='.'||next=='(')))
+                    if(revisa.charAt(i)<48||revisa.charAt(i)>57)
                            resp=false;
                     break;
             }
             i++;      
+        }
+        if(!resp){
+            next=revisa.charAt(revisa.length()-1);
+            if(next=='+'||next=='-'||next=='*'||next=='/'||next=='^'||next=='.'||next=='('||next==')')
+                resp=false;
         }
         return resp;   
     }
