@@ -184,42 +184,6 @@ public class Algoritmos {
         }
         return valores.pop();
     }
-    
-    /**
-     * Analiza los paréntesis contenidos en la oración para ayudar con las prioridades
-     * @param analiza Cadena a analizar
-     * @return booleano en caso de que haya un paréntesis
-     */
-     public static boolean analizaParentesis (String analiza){
-        boolean resp=true;
-        PilaA <Character> almacena = new PilaA();
-        int contador=0;
-        int i=0;
-        
-           while (i<analiza.length()) {  
-
-                if(analiza.charAt(i)=='(')
-                    almacena.push('(');                              
-
-                else 
-                    if  (analiza.charAt(i)==')')  
-                        if (!almacena.isEmpty())
-                            almacena.pop();
-
-                        else {
-                            almacena.push(')');
-                            break;
-                        }
-           
-                i++;
-            }
-            if(almacena.isEmpty())
-                resp= true; 
-             else 
-                resp= false;
-       
-        return resp;
-    }
      
      /**
       * Revisa la sintaxis de la operación.
@@ -230,9 +194,11 @@ public class Algoritmos {
         boolean resp;
         char next;
         int i, j;
+        PilaA parentesis;
         
         resp=true;
         i=0;
+        parentesis=new PilaA();
         while(i<revisa.length()-1 && resp){
             next=revisa.charAt(i+1);
             switch(revisa.charAt(i)){
@@ -258,12 +224,15 @@ public class Algoritmos {
                     }
                     break;
                 case '(':
+                    parentesis.push('(');
                     if(next=='+'||next=='*'||next=='/'||next=='^'||next=='.'||next==')')
                         resp=false;
                     break;
                 case ')':
-                    if(next=='.'||next=='('||(next>47&&next<58))
+                    if(next=='.'||next=='('||(next>47&&next<58)||parentesis.isEmpty())
                         resp=false;
+                    else
+                        parentesis.pop();
                     break;
                 default:
                     if(revisa.charAt(i)<48||revisa.charAt(i)>57)
@@ -288,14 +257,14 @@ public class Algoritmos {
         
         System.out.println("Prueba de analizaParentesis");
         System.out.println("Con los paréntesis puestos correctamente");
-        System.out.println("1.1(a+b)  " + analizaParentesis("1(a+b)")); 
-        System.out.println("2. 6+(-1(-5(34-5)+3)) " +analizaParentesis("6+(-1(-5(34-5)+3.0))"));
+        System.out.println("1. (a+b)  " + revisaSintaxis("1.1*(2+3)")); 
+        System.out.println("2. 6+(-1(-5(34-5)+3)) " +revisaSintaxis("6+(-1(-5(34-5)+3.0))"));
         
         System.out.println("Con los paréntesis puestos incorrectamente");
-        System.out.println("1. 3)4-5+3( " + analizaParentesis("3)4-5+3("));
-        System.out.println("2. 34-5+3( " +analizaParentesis("34-5+3("));
-        System.out.println("3. 3)4-5+3 " +analizaParentesis("3)4-5+3--"));
-        System.out.println("4. 34-5+3( " +analizaParentesis("34-5+3("));
+        System.out.println("1. 3)4-5+3( " + revisaSintaxis("3)4-5+3("));
+        System.out.println("2. 34-5+3( " +revisaSintaxis("34-5+3("));
+        System.out.println("3. 3)4-5+3 " +revisaSintaxis("3)4-5+3--"));
+        System.out.println("4. 34-5+3( " +revisaSintaxis("34-5+3("));
         
         
         System.out.println("\nPrueba de analiza signo");
@@ -310,7 +279,7 @@ public class Algoritmos {
         
         System.out.println("Prueba de revisaPunto");
         System.out.println("Con los puntos puestos correctamente");
-        System.out.println("1.1*(a+b)  " + revisaSintaxis("1.1*(2+3)")); 
+        System.out.println("1  0.1*(2+3)  " + revisaSintaxis("0.1*(2+3)")); 
         System.out.println("2. 6+(-1(-5.6(3.4-5)+3.0)) " +revisaSintaxis("6+(-1*(-5*(34-5)+3.0))"));
         
         System.out.println("Con los puntos puestos incorrectamente");
