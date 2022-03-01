@@ -1,7 +1,19 @@
 package calculadora;
 
+/**
+ * Clase que contiene todos los algoritmos necesarios para la lógica del programa
+ * @version 1.0
+ * @author Equipo
+ * @fecha  28/02/2022
+ */
 
 public class Algoritmos {
+    
+    /**
+     * 
+     * @param elem elemento a analizar
+     * @return int prioridad del operando
+     */
     
     private static int getPrioridad(char elem){
         
@@ -15,6 +27,11 @@ public class Algoritmos {
         };
     }
     
+    /**
+     * Convierte pila de infija a postfija
+     * @param infija
+     * @return String postfija 
+     */
     public static String infijaAPostfija(String infija){
         String postfija;
         char elem;
@@ -48,6 +65,12 @@ public class Algoritmos {
             postfija+=pila.pop();
         return postfija;
     }  
+    
+    /**
+     * Analiza los paréntesis contenidos en la oración para ayudar con las prioridades
+     * @param analiza Cadena a analizar
+     * @return booleano en caso de que haya un paréntesis
+     */
      public static boolean analizaParentesis (String analiza){
         boolean resp=true;
         PilaA <Character> almacena = new PilaA();
@@ -78,6 +101,12 @@ public class Algoritmos {
        
         return resp;
     }
+     
+     /**
+      * Revisa si hay algún signo
+      * @param revisa Cadena a revisar
+      * @return boolean que indica si hay presencia de signos
+      */
     public static boolean revisaSignos(String revisa){
         boolean resp=true;
         char ant;
@@ -94,6 +123,11 @@ public class Algoritmos {
         
         return resp;   
     }
+    /**
+     * En revisión
+     * @param revisa
+     * @return 
+     */
     public static boolean revisaPunto ( String revisa){
         boolean resp=true;
         int i=0,j=0,contador=0;
@@ -116,6 +150,10 @@ public class Algoritmos {
         
     }
     
+    /**
+     * Main para pruebas 
+     * @param args 
+     */
     public static void main(String[] args) {
         
         System.out.println("Prueba de analizaParentesis");
