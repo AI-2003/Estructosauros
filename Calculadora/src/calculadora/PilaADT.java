@@ -1,5 +1,10 @@
 package calculadora;
 
+/**
+ * Interfaz del comportamiento de las pilas
+ * @author Equipo
+ * @param <T> 
+ */
 public interface PilaADT <T> {
     
     public void push(T dato);
