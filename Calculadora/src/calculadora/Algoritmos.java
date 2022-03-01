@@ -30,41 +30,85 @@ public class Algoritmos {
     /**
      * Convierte pila de infija a postfija
      * @param infija
-     * @return String postfija 
+     * @return PilaA postfija 
      */
-    public static String infijaAPostfija(String infija){
-        String postfija;
-        char elem;
+    public static PilaA infijaAPostfija(PilaA infija){
+        Object elem;
+        char elemChar;
         int prioridad;
-        PilaA pila;
+        PilaA<Character> pila;
+        PilaA postfija;
         
-        postfija="";
         pila=new PilaA();
-        for(int i=0; i<infija.length(); i++){
-            elem=infija.charAt(i);
-            if(elem>47&&elem<58 || elem=='.')
-                postfija+=elem;
-            else
-                if(elem=='(')
-                    pila.push(elem);
-                else
-                    if(elem==')'){
+        postfija=new PilaA();
+        while(!infija.isEmpty()){
+            elem=infija.pop();
+            if(elem instanceof Double)
+                postfija.push((double) elem);
+            else{
+                elemChar=(char) elem;
+                switch (elemChar) {
+                    case '(':
+                        pila.push(elemChar);
+                        break;
+                    case ')':
                         while(!pila.isEmpty() && !pila.peek().equals('('))
-                            postfija+=pila.pop();
+                            postfija.push(pila.pop());
                         pila.pop();
-                    }else{
-                        prioridad=getPrioridad(elem);
+                        break;
+                    default:
+                        prioridad=getPrioridad(elemChar);
                         if(prioridad!=-1){
-                            while(!pila.isEmpty() && prioridad<=getPrioridad((char) pila.peek()))
-                                postfija+=pila.pop();
-                            pila.push(elem);
-                        }
-                    }
+                                while(!pila.isEmpty() && prioridad<=getPrioridad(pila.peek()))
+                                        postfija.push(pila.pop());
+                                pila.push(elemChar);
+                                }
+                        break;
+                }
+            }
         }
         while(!pila.isEmpty())
-            postfija+=pila.pop();
+            postfija.push(pila.pop());
         return postfija;
-    }  
+    }
+    
+    /**
+     * Convierte String de operacion a pila infija
+     * @param operacion
+     * @return PilaA infija 
+     */
+    public static PilaA operacionAInfija(String operacion){
+        PilaA infija;
+        int i, j;
+        char elem;
+        
+        infija=new PilaA();
+        i=operacion.length()-1;
+        while(i>=0){
+            elem=operacion.charAt(i);
+            j=i;
+            while(j>=0&&((operacion.charAt(j)>47&&operacion.charAt(j)<58)||operacion.charAt(j)=='.'))
+                j--;
+            if(j<i){
+                infija.push(Double.parseDouble(operacion.substring(j+1, i+1)));
+                i=j;
+            }else{
+                infija.push(elem);
+                i--;
+            }
+        }
+        return infija;
+    }
+    
+    public static double evaluaPostfija(PilaA postfija){
+        double res;
+        
+        res=0;
+        while(!postfija.isEmpty()){
+            
+        }
+        return res;
+    }
     
     /**
      * Analiza los paréntesis contenidos en la oración para ayudar con las prioridades
