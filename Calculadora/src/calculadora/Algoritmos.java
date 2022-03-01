@@ -262,7 +262,7 @@ public class Algoritmos {
                         resp=false;
                     break;
                 case ')':
-                    if(next=='.'||next=='(')
+                    if(next=='.'||next=='('||(next>47&&next<58))
                         resp=false;
                     break;
                 default:
