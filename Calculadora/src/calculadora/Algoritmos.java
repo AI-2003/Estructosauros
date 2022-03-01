@@ -29,6 +29,12 @@ public class Algoritmos {
         };
     }
     
+    /**
+     * Invierte los elementos de la pila
+     * @param <T> 
+     * @param pila ingresa pila a invertir
+     */
+    
     private static <T> void invierte(PilaA<T> pila){
         ArrayList <T> elementos = new ArrayList(); 
         
@@ -40,7 +46,7 @@ public class Algoritmos {
     
     /**
      * Convierte pila de infija a postfija
-     * @param infija
+     * @param infija Pila sin procesar
      * @return PilaA postfija 
      */
     public static PilaA infijaAPostfija(PilaA infija){
@@ -86,7 +92,7 @@ public class Algoritmos {
     
     /**
      * Convierte String de operacion a pila infija
-     * @param operacion
+     * @param operacion transforma la operación a una pila Infija
      * @return PilaA infija 
      */
     public static PilaA operacionAInfija(String operacion){
@@ -117,6 +123,12 @@ public class Algoritmos {
         return infija;
     }
     
+    /**
+     * Hace los cálculos para que funcione las exponenciales en la computadora
+     * @param num Número base
+     * @param pow Potencia
+     * @return Resultado de elevar num a pow
+     */
     private static double exp(double num, int pow){
         double res;
         
@@ -133,6 +145,12 @@ public class Algoritmos {
         return res;
     }
     
+    
+    /**
+     * Checa los valores de la pila postfija
+     * @param postfija Pila postfija
+     * @return Valores
+     */
     public static double evaluaPostfija(PilaA postfija){
         double res, val1, val2;
         PilaA<Double> valores;
