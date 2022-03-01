@@ -274,7 +274,7 @@ public class Algoritmos {
         }
         if(resp){
             next=revisa.charAt(revisa.length()-1);
-            if(next=='+'||next=='-'||next=='*'||next=='/'||next=='^'||next=='.'||next=='('||next==')')
+            if(next=='+'||next=='-'||next=='*'||next=='/'||next=='^'||next=='.'||next=='(')
                 resp=false;
         }
         return resp;   
