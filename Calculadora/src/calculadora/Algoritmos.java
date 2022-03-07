@@ -45,6 +45,29 @@ public class Algoritmos {
     }
     
     /**
+     * Hace los cálculos para que funcione las exponenciales en la computadora.
+     * @param num Número base.
+     * @param pow Potencia.
+     * @return Resultado de elevar num a pow.
+     */
+    private static double exp(double num, int pow){
+        double res;
+        
+        if(num==0)
+            res=0;
+        else
+            if(pow<0)
+                res=1/exp(num,-pow);
+            else{
+                res=1;
+                for(int i=1; i<=pow; i++)
+                    res*=num;
+            }
+        return res;
+    }
+    
+    
+    /**
      * Convierte pila de infija a postfija.
      * @param infija Pila sin procesar.
      * @return PilaA postfija .
@@ -123,27 +146,6 @@ public class Algoritmos {
         return infija;
     }
     
-    /**
-     * Hace los cálculos para que funcione las exponenciales en la computadora.
-     * @param num Número base.
-     * @param pow Potencia.
-     * @return Resultado de elevar num a pow.
-     */
-    private static double exp(double num, int pow){
-        double res;
-        
-        if(num==0)
-            res=0;
-        else
-            if(pow<0)
-                res=1/exp(num,-pow);
-            else{
-                res=1;
-                for(int i=1; i<=pow; i++)
-                    res*=num;
-            }
-        return res;
-    }
     
     
     /**
