@@ -7,7 +7,6 @@ package calculadora;
  * @fecha 06/03/2022
  */
 
-
 import static calculadora.Algoritmos.borrarUltimo;
 import static calculadora.Algoritmos.evaluaPostfija;
 import static calculadora.Algoritmos.infijaAPostfija;
@@ -19,15 +18,12 @@ public class InterfazCalculadora extends javax.swing.JFrame {
     /**
      * Creates new form InterfazCalculadora.
      */
-    
 
     public InterfazCalculadora() {
         initComponents();
         pantallaTxt.setEnabled(false);
         this.setResizable(false);
-        this.setLocationRelativeTo(null);
-
-        
+        this.setLocationRelativeTo(null); 
     }
 
     /**

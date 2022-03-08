@@ -123,6 +123,27 @@ public class Algoritmos {
         return infija;
     }
     
+    /**
+     * Hace los cálculos para que funcione las exponenciales en la computadora.
+     * @param num Número base.
+     * @param pow Potencia.
+     * @return Resultado de elevar num a pow.
+     */
+    private static double exp(double num, int pow){
+        double res;
+        
+        if(num==0)
+            res=0;
+        else
+            if(pow<0)
+                res=1/exp(num,-pow);
+            else{
+                res=1;
+                for(int i=1; i<=pow; i++)
+                    res*=num;
+            }
+        return res;
+    }
     
     /**
      * Checa los valores de la pila postfija.
@@ -230,6 +251,7 @@ public class Algoritmos {
       * @param revisa Cadena a revisar.
       * @return boolean que indica si hay signos escritos de manera incorrecta.
       */
+    
     public static boolean revisaSigno(String revisa){
         boolean resp=true;
         int i=0;
