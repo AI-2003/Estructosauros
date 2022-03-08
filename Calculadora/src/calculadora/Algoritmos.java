@@ -252,17 +252,17 @@ public class Algoritmos {
       * @param revisa Cadena a revisar.
       * @return boolean que indica si hay signos escritos de manera incorrecta.
       */
-    public static boolean revisaSigno(String revisa){
+     public static boolean revisaSigno(String revisa){
         boolean resp=true;
         int i=0;
         
         while(i<revisa.length()-1 && resp){
-            if(revisa.charAt(0)== '^'||revisa.charAt(0)== '+'||revisa.charAt(0)== '/'||revisa.charAt(0)== '*'||revisa.charAt(0)== '-' ||revisa.charAt(revisa.length()-1)== '^'||revisa.charAt(revisa.length()-1)== '+'||revisa.charAt(revisa.length()-1)== '/'||revisa.charAt(revisa.length()-1)== '*'||revisa.charAt(revisa.length()-1)== '-')
+            if(revisa.charAt(0)== '^'||revisa.charAt(0)== '+'||revisa.charAt(0)== '/'||revisa.charAt(0)== '*'||revisa.charAt(revisa.length()-1)== '^'||revisa.charAt(revisa.length()-1)== '/'||revisa.charAt(revisa.length()-1)== '*'||revisa.charAt(revisa.length()-1)== '-')
                 resp=false;
             else{   
                 if(revisa.charAt(i)== '^'||revisa.charAt(i)== '+'||revisa.charAt(i)== '/'||revisa.charAt(i)== '*'||revisa.charAt(i)== '-')
                     i++;
-                if(revisa.charAt(i)== '^'||revisa.charAt(i)== '+'||revisa.charAt(i)== '/'||revisa.charAt(i)== '*'||revisa.charAt(i)== '-')
+                if(revisa.charAt(i)== '^'||revisa.charAt(i)== '+'||revisa.charAt(i)== '/'||revisa.charAt(i)== '*')
                         resp=false;
                 i++;
             }
