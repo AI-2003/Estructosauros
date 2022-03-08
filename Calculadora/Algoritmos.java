@@ -250,6 +250,7 @@ public class Algoritmos {
       * @param revisa Cadena a revisar.
       * @return boolean que indica si hay signos escritos de manera incorrecta.
       */
+    
     public static boolean revisaSigno(String revisa){
         boolean resp=true;
         int i=0;
@@ -275,67 +276,8 @@ public class Algoritmos {
       * @param revisa Cadena a revisar.
       * @return boolean que indica si hay signos, puntos o paréntesis escritos de manera incorrecta o algún caracter no reconocido.
       */
-    //public static boolean revisaSintaxis(String revisa){
-      // return revisaSigno(revisa) && analizaParentesis(revisa) && revisaPunto(revisa);
-    //}
-    
     public static boolean revisaSintaxis(String revisa){
-        boolean resp;
-        char next;
-        int i, j;
-        PilaA parentesis;
-        
-        resp=true;
-        i=0;
-        parentesis=new PilaA();
-        while(i<revisa.length()-1 && resp){
-            next=revisa.charAt(i+1);
-            switch(revisa.charAt(i)){
-                case '+', '*', '/', '^':
-                    if(next=='+'||next=='*'||next=='/'||next=='^'||next=='.'||next==')'){
-                        resp=false;
-                    }
-                    break;
-                case '-':
-                    if(next=='+'||next=='-'||next=='*'||next=='/'||next=='^'||next=='.'||next==')'){
-                        resp=false;
-                    }
-                    break;
-                case '.':
-                    if(next=='+'||next=='-'||next=='*'||next=='/'||next=='^'||next=='.'||next=='('||next==')')
-                        resp=false;
-                    else{
-                        j=i+1;
-                        while(j<revisa.length() && revisa.charAt(j)!='.' && revisa.charAt(j)>47 && revisa.charAt(j)<58)
-                            j++;
-                        if(j<revisa.length()&&revisa.charAt(j)=='.')
-                            resp=false;
-                    }
-                    break;
-                case '(':
-                    parentesis.push('(');
-                    if(next=='+'||next=='*'||next=='/'||next=='^'||next=='.'||next==')')
-                        resp=false;
-                    break;
-                case ')':
-                    if(next=='.'||next=='('||(next>47&&next<58)||parentesis.isEmpty())
-                        resp=false;
-                    else
-                        parentesis.pop();
-                    break;
-                default:
-                    if(revisa.charAt(i)<48||revisa.charAt(i)>57)
-                           resp=false;
-                    break;
-            }
-            i++;      
-        }
-        if(resp){
-            next=revisa.charAt(revisa.length()-1);
-            if(next=='+'||next=='-'||next=='*'||next=='/'||next=='^'||next=='.'||next=='(')
-                resp=false;
-        }
-        return resp;   
+       return revisaSigno(revisa) && analizaParentesis(revisa) && revisaPunto(revisa);
     }
     
     /**
